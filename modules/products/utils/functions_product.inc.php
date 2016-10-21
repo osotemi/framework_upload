@@ -37,10 +37,6 @@ function validate_product( $value ) {
             'options' => array('regexp' => '/^(\+\d{2,3}\s)?[689]{1}\d{2}\s\d{3}\s\d{3}$/')
         ),
 
-        'discount_percent' => array(
-            'filter' => FILTER_VALIDATE_REGEXP,
-            'options' => array('regexp' => '/^[0-99 ]1$/i')
-        ),
     );
 
     $result = filter_var_array($value, $filter);
@@ -50,11 +46,11 @@ function validate_product( $value ) {
         $valid = false;
     }
 
-
     if ($result['discharge_date'] && $result['expiry_date']) {
         $valid_dates = valida_dates($result['discharge_date'], $result['expiry_date']);
 
         if (!$valid_dates) {
+            print_r($valid_dates);
             $error['discharge_date'] = "Expiry date can't be greater than discharge date";
             $valid = false;
         }
@@ -108,12 +104,6 @@ function validate_product( $value ) {
             $valid = false;
         }
 
-        if (!$result['discount_percent']) {
-            $error['discount_percent'] = "Discount must be between 0 and 99";
-            $valid = false;
-        }
-
-
     } else {
         $valid = false;
     };
@@ -127,6 +117,7 @@ function validate_product( $value ) {
 }
 
 // validate dates of product
+
 function valida_dates($discharge_day, $expiry_day) {
     //conole.log( $discharge_day + "" + $expiry_day);
     $discharge_day = date("m/d/Y", strtotime($discharge_day));
@@ -143,7 +134,19 @@ function valida_dates($discharge_day, $expiry_day) {
     }
     return false;
 }
-
+/*
+function valida_dates($discharge_day,$expiry_day){
+  $fixedDate = $discharge_day;
+  $variableDate = $expiry_day;
+  // Now we do our timestamping magic!
+  $fixedDate = implode('', array_reverse(explode('/', $fixedDate)));
+  $variableDate = implode('', array_reverse(explode('/', $variableDate)));
+  if ($variableDate < $fixedDate){
+      return true;
+  }
+  return false;
+}
+*/
 //validate email
 function valida_email($email) {
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);

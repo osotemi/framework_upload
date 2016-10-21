@@ -450,13 +450,13 @@ function validate_products(){
         $.post('modules/products/controller/controller_products.class.php',
                 {discharge_products_json: data_products_JSON},
         function (response) {
-            //console.log(response);
+            console.log(response);
 
             if (response.success) {
                 window.location.href = response.redirect;//redirect = result_products ||
             }
         }, "json").fail(function (xhr) {
-            //console.log(xhr.responseJSON);
+            console.log(xhr.responseJSON);
             if (xhr.responseJSON.error.product_name)
                 $("#product_name").focus().after("<span  class='error1'>" + xhr.responseJSON.error.product_name + "</span>");
 

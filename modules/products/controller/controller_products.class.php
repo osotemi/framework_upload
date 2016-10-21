@@ -13,7 +13,7 @@ function discharge_products() {
   	$jsondata = array();
   	$productsJSON = json_decode($_POST["discharge_products_json"], true);
 
-	$result = validate_product($productsJSON);
+	  $result = validate_product($productsJSON);
 
     if (empty($_SESSION['result_avatar'])) {
         $_SESSION['result_avatar'] = array('resultado' => true, 'error' => "", 'data' => 'media/default-avatar.png');
@@ -27,7 +27,7 @@ function discharge_products() {
     echo json_encode($jsondata);
     exit;
     */
-	if(($result) && ($result_avatar['resultado'])){
+	if(($result['result']) && ($result_avatar['resultado'])){
 
     	$arrArgument = array(
             'product_name' => ucfirst($result['data']['product_name']),
@@ -68,7 +68,7 @@ function discharge_products() {
         }
         header('HTTP/1.0 400 Bad error');
         echo json_encode($jsondata);
-
+        exit;
     }
 
 
